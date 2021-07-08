@@ -1,6 +1,6 @@
 /*
  * Project Lab12
- * Description:
+ * Description: MASTER
  * Author:
  * Date:
  */
@@ -31,6 +31,7 @@ void loop()
   { // Will be true if there is serial data to read
     char value = Serial.read();
     tx[0] = value;
+    // if 0 or 1 it just transfers that to slave
     if (value == '0')
     {
       digitalWrite(D5, LOW);
@@ -43,11 +44,13 @@ void loop()
       SPI.transfer(tx, rx, 1, NULL);
       digitalWrite(D5, HIGH);
     }
+    // if ? then it requests for button info
     if (value == '?')
     {
       digitalWrite(D5, LOW);
       SPI.transfer(tx, rx, 1, NULL);
       digitalWrite(D5, HIGH);
+      // if button is off it prints L in serial. H if on.
       if(rx[0] == 0){
         Serial.println('L');
       }
